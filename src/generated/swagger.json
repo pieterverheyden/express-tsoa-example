@@ -1,0 +1,175 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"Gender": {
+				"enum": [
+					"F",
+					"M",
+					"X"
+				],
+				"type": "string"
+			},
+			"User": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"firstName": {
+						"type": "string"
+					},
+					"lastName": {
+						"type": "string"
+					},
+					"gender": {
+						"$ref": "#/components/schemas/Gender"
+					}
+				},
+				"required": [
+					"email",
+					"firstName"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "express-tsoa-example",
+		"version": "1.0.0",
+		"description": "Simple web server with Express and TSOA",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {
+			"name": "Pieter Verheyden"
+		}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/users/{email}": {
+			"get": {
+				"operationId": "GetUserByEmail",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/User"
+										}
+									],
+									"nullable": true
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request: invalid email"
+					},
+					"404": {
+						"description": "User not found"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				},
+				"description": "Get an existing user by email adress",
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "the email address of the user",
+						"in": "path",
+						"name": "email",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "RemoveUser",
+				"responses": {
+					"204": {
+						"description": "User successfully deleted"
+					},
+					"400": {
+						"description": "Bad request: invalid email"
+					},
+					"410": {
+						"description": "User not found"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				},
+				"description": "Delete an existing user by email adress",
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "the email address of the user",
+						"in": "path",
+						"name": "email",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/users": {
+			"put": {
+				"operationId": "CreateOrUpdateUser",
+				"responses": {
+					"201": {
+						"description": "User successfully created or updated"
+					},
+					"400": {
+						"description": "Bad request: invalid email"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				},
+				"description": "Create a new user or automatically update an existing user if the email address already exists",
+				"summary": "Create or update a user",
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"description": "the user to create or update",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/User"
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}

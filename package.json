@@ -1,0 +1,59 @@
+{
+  "name": "express-tsoa-example",
+  "version": "1.0.0",
+  "description": "Simple web server with Express and TSOA",
+  "main": "index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "build": "npm run generate && npm run lint && tsc",
+    "dev": "npm run generate && env-cmd -f .env --fallback nodemon --watch src -x ts-node src/index.ts | npx pino-pretty",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "generate": "tsoa spec-and-routes",
+    "build-image": "docker build -t express-tsoa-example .",
+    "test:unit": "cross-env ENV_FILE=./.env.test jest --coverage"
+  },
+  "keywords": [
+    "web server",
+    "express",
+    "tsoa"
+  ],
+  "author": "Pieter Verheyden",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pieterverheyden/express-tsoa-example.git"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.19.2",
+    "@types/compression": "^1.7.2",
+    "@types/express": "^4.17.13",
+    "@types/jest": "^27.4.1",
+    "@types/node": "^14.18.15",
+    "@types/pg": "^8.6.5",
+    "@types/supertest": "^2.0.12",
+    "@types/swagger-ui-express": "^4.1.3",
+    "@typescript-eslint/eslint-plugin": "^5.21.0",
+    "@typescript-eslint/parser": "^5.21.0",
+    "cross-env": "^7.0.3",
+    "env-cmd": "^10.1.0",
+    "eslint": "^8.14.0",
+    "jest": "^27.0.0",
+    "nodemon": "^2.0.15",
+    "pino-pretty": "^7.6.1",
+    "supertest": "^6.2.3",
+    "ts-jest": "^27.1.4",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.3"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "compression": "^1.7.4",
+    "email-validator": "^2.0.4",
+    "express": "^4.18.0",
+    "helmet": "^5.0.2",
+    "pg": "^8.7.3",
+    "pino": "^7.11.0",
+    "swagger-ui-express": "^4.3.0",
+    "tsoa": "^3.14.1"
+  }
+}
