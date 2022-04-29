@@ -1,7 +1,6 @@
 import { Body, Controller, Delete, Get, Path, Put, Response, Route, SuccessResponse, Tags } from 'tsoa'
 import { User } from '../models/user'
-import { deleteUserByEmail } from '../repositories/postgres/user-delete'
-import { createOrUpdateUser, getUserByEmail } from '../services/users-service'
+import { createOrUpdateUser, getUserByEmail, removeUserByEmail } from '../services/users-service'
 import * as EmailValidator from 'email-validator'
 import logger from '../logger'
 
@@ -79,7 +78,7 @@ export class UsersController extends Controller {
             return
         }
         try {
-            const res = await deleteUserByEmail(email)
+            const res = await removeUserByEmail(email)
             if (res === 0) {
                 this.setStatus(410)
             }
