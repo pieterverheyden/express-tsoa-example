@@ -1,12 +1,20 @@
 import { User } from '../models/user'
 import { deleteUserByEmail } from '../repositories/postgres/user-delete'
-import { selectUserByEmail } from '../repositories/postgres/user-select'
+import { selectAllUsers, selectUserByEmail } from '../repositories/postgres/user-select'
 import { upsertUser } from '../repositories/postgres/user-upsert'
 
 
 export async function createOrUpdateUser(user: User): Promise<void> {
     try {
         return await upsertUser(user)
+    } catch (err) {
+        throw new Error(`${err}`)
+    }
+}
+
+export async function getAllUsers(): Promise<User[] | null> {
+    try {
+        return await selectAllUsers()
     } catch (err) {
         throw new Error(`${err}`)
     }

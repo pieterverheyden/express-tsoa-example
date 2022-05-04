@@ -35,6 +35,28 @@ export function RegisterRoutes(app: express.Router) {
     //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
     //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
     // ###########################################################################################################
+        app.get('/users',
+
+            function UsersController_getAllUsers(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new UsersController();
+
+
+              const promise = controller.getAllUsers.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.get('/users/:email',
 
             function UsersController_getUserByEmail(request: any, response: any, next: any) {
@@ -83,7 +105,7 @@ export function RegisterRoutes(app: express.Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.delete('/users/:email',
 
-            function UsersController_removeUser(request: any, response: any, next: any) {
+            function UsersController_removeUserByEmail(request: any, response: any, next: any) {
             const args = {
                     email: {"in":"path","name":"email","required":true,"dataType":"string"},
             };
@@ -97,7 +119,7 @@ export function RegisterRoutes(app: express.Router) {
                 const controller = new UsersController();
 
 
-              const promise = controller.removeUser.apply(controller, validatedArgs as any);
+              const promise = controller.removeUserByEmail.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);

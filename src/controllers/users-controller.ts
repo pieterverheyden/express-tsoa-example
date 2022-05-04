@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Path, Put, Response, Route, SuccessResponse, Tags } from 'tsoa'
 import { User } from '../models/user'
-import { createOrUpdateUser, getUserByEmail, removeUserByEmail } from '../services/users-service'
+import { createOrUpdateUser, getAllUsers, getUserByEmail, removeUserByEmail } from '../services/users-service'
 import * as EmailValidator from 'email-validator'
 import logger from '../logger'
 
@@ -8,6 +8,24 @@ import logger from '../logger'
 @Tags('Users')
 @Route('users')
 export class UsersController extends Controller {
+
+    /**
+     * Get all existing users
+     */
+    @Response(404, 'Users not found')
+    @Response(500, 'Internal server error')
+    @Get()
+    public async getAllUsers(): Promise<User[] | null> {
+        try {
+            const res = await getAllUsers()
+            !res ? this.setStatus(404) : this.setStatus(200)
+            return res
+        } catch (err) {
+            logger.error(err)
+            this.setStatus(500)
+            return null
+        }
+    }
 
     /**
      * Get an existing user by email adress
@@ -70,7 +88,7 @@ export class UsersController extends Controller {
     @Response(410, 'User not found')
     @Response(500, 'Internal server error')
     @Delete('{email}')
-    public async removeUser(@Path() email: string): Promise<void> {
+    public async removeUserByEmail(@Path() email: string): Promise<void> {
         if (EmailValidator.validate(email)) {
             this.setStatus(204)
         } else {
